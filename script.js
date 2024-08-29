@@ -12,7 +12,8 @@ document.getElementById('generateTableBtn').addEventListener('click', function (
     const headers = [
         'CFOP', 'Número CTe', 'Data/Hora Emissão', 'Município Início', 'Município Fim',
         'Observações', 'Nome Empresa', 'Nome Cliente', 'CNPJ Cliente Final',
-        'Nome Cliente Final', 'Chave Nota Fiscal', 'Peso Carga', 'Valor Carga', 'Valor do CTE'
+        'Nome Cliente Final', 'Chave Nota Fiscal', 'Peso Carga', 'Valor Carga', 
+        'Valor do CTE', 'Valor Frete', 'Porcentagem do Valor'
     ];
     rows.push(headers);
 
@@ -36,14 +37,25 @@ document.getElementById('generateTableBtn').addEventListener('click', function (
             const chaveNotaFiscal = xmlDoc.querySelector('infDoc chave')?.textContent || '';
             
             // Substitui pontos por vírgulas nas colunas numéricas
-            const pesoCarga = (xmlDoc.querySelector('infCarga qCarga')?.textContent || '').replace('.', ',');
-            const valorCarga = (xmlDoc.querySelector('infCarga vCarga')?.textContent || '').replace('.', ',');
-            const valorCTE = (xmlDoc.querySelector('Comp vComp')?.textContent || '').replace('.', ',');
+            let pesoCarga = (xmlDoc.querySelector('infCarga qCarga')?.textContent || '').replace('.', ',');
+            let valorCarga = (xmlDoc.querySelector('infCarga vCarga')?.textContent || '').replace('.', ',');
+            let valorCTE = (xmlDoc.querySelector('Comp vComp')?.textContent || '').replace('.', ',');
+
+            // Converte os valores para números (substituindo vírgula por ponto) para cálculos
+            pesoCarga = parseFloat(pesoCarga.replace(',', '.'));
+            valorCTE = parseFloat(valorCTE.replace(',', '.'));
+
+            // Calcula o Valor Frete (Peso Carga * 0.92) e converte para string com vírgula
+            const valorFrete = (pesoCarga * 0.92).toFixed(2).replace('.', ',');
+
+            // Calcula a Porcentagem do Valor (Valor CTE / Valor Frete)
+            const porcentagemValor = (valorCTE / (pesoCarga * 0.92)).toFixed(2).replace('.', ',');
 
             // Adiciona os dados como uma linha ao array
             const row = [
                 cfop, nCT, dhEmi, xMunIni, xMunFim, xObs, nomeEmpresa, nomeCliente,
-                cnpjClienteFinal, nomeClienteFinal, chaveNotaFiscal, pesoCarga, valorCarga, valorCTE
+                cnpjClienteFinal, nomeClienteFinal, chaveNotaFiscal, pesoCarga.toFixed(2).replace('.', ','),
+                valorCarga, valorCTE.toFixed(2).replace('.', ','), valorFrete, porcentagemValor
             ];
             rows.push(row);
 
@@ -55,7 +67,7 @@ document.getElementById('generateTableBtn').addEventListener('click', function (
                 XLSX.utils.book_append_sheet(wb, ws, 'Dados XML');
 
                 // Gera e baixa o arquivo Excel
-                XLSX.writeFile(wb, 'dados_xml.xlsx');
+                XLSX.writeFile(wb, 'Xml_Aurora.xlsx');
             }
         };
         reader.readAsText(file);
