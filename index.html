@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <title>XML para Planilha</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+    
+        h1 {
+            color: #4CAF50;
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    
+        #fileInput {
+            display: block;
+            margin: 0 auto 20px;
+            padding: 10px;
+            border: 2px dashed #4CAF50;
+            border-radius: 10px;
+            background-color: #fff;
+            cursor: pointer;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+    
+        #fileInput:hover {
+            background-color: #f9fffb;
+            border-color: #45a049;
+        }
+    
+        #generateTableBtn {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        #generateTableBtn:hover {
+            background-color: #45a049;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+    
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+    
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: 600;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    
+        tr:hover {
+            background-color: #f1f9f3;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>XML para Planilha</h1>
+    <input type="file" id="fileInput" multiple accept=".xml">
+    <button id="generateTableBtn">Gerar Planilha</button>
+    <table id="resultTable"></table>
+
+    <!-- Adicionando referência ao script JS -->
+    <script src="script.js"></script>
+</body>
+</html>
